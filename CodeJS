@@ -1,0 +1,36 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    const { length, customer_first_name, customer_last_name } = req.query;
+
+    if (!length || !customer_first_name || !customer_last_name) {
+        res.status(400).json({ error: 'Invalid request. Please provide all required parameters.' });
+        return;
+    }
+
+    const customer_name = `${customer_first_name} ${customer_last_name}`;
+    const lumberSizes = JSON.parse(length);
+
+    const order = lumberSizes.map((meters) => {
+        const totalInches = meters * 39.3701;
+        const feet = Math.floor(totalInches / 12);
+        const inches = (totalInches % 12).toFixed(1);
+
+        return { feet, inches };
+    });
+
+    const response = {
+        customer_name,
+        order,
+    };
+
+    res.json(response);
+});
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
