@@ -9,7 +9,7 @@ const port = 3000;
 }
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/', (req: { query: { length: any; customer_first_name: any; customer_last_name: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string; }): void; new(): any; }; }; json: (arg0: { customer_name: string; order: any; }) => void; }) => {
     const { length, customer_first_name, customer_last_name } = req.query;
 
     if (!length || !customer_first_name || !customer_last_name) {
